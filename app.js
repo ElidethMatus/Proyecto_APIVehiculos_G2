@@ -17,6 +17,14 @@ app.use('/',usuariosRoutes);
 
 const PORT =process.env.PORT;
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
+// Aqui llamamos a las rutas de clientes , ventas y precioUsd , y les aplicamos el middleware de autenticacion para que solo los usuarios autenticados puedan acceder a estas rutas.
+const clientesRoute = require('./routes/clientesRoute');
+const ventasRoute = require('./routes/ventasRoute');
+const precioUsdRoute = require('./routes/precioUsdRoute');
+// Aqui se aplican las rutas y el middleware de autenticacion para cada una de ellas.
+app.use('/clientes', AuthMiddleware, clientesRoute);
+app.use('/ventas', AuthMiddleware, ventasRoute);
+app.use('/precio-usd', AuthMiddleware, precioUsdRoute);
 
 app.listen(PORT,()=>{
   console.log(`El servidor esta escuchando en en http://localhost:${PORT}`);
