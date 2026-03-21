@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../config/db');
 require('dotenv').config();
-const router = express.Router(); // En vez del modulo principal de express se utiliza router.
+const router = express.Router(); 
 
 //Api para obtener todos los clientes
 router.get('/', (req, res) => {

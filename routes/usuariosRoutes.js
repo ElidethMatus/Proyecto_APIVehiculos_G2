@@ -1,26 +1,47 @@
-  const express = require('express');
-  const mysql = require('mysql2');
-  const pool = require('../config/db');
-  const AuthMiddleware = require('../middleware/authMiddleware');
+const express = require('express');
+const pool = require('../config/db');
 
-  require('dotenv').config();
-  const router = express.Router(); 
+const router = express.Router();
 
+// GET todos los usuarios (SIN password)
+router.get('/', (req, res) => {
+  const sql = `
+    SELECT idUsuarios, Nombre, Apellido, Correo, Rol, Telefono, Estado, Username
+    FROM Usuarios
+  `;
 
-  
-  
-  //Api para ver todos los usuarios
-  router.get('/lista/usuarios',AuthMiddleware,(req,res)=>{
-    const sql = 'SELECT * FROM Usuarios';
-    pool.query(sql,(error,results)=>{
-      if(error){
-        console.log('Error en la consulta sql');
-        return res.status(500).json({status:500,message:'Error en la consulta sql'});
-      }
-      return res.status(200).json({ status: 200, message: 'Success', data: results });
+  pool.query(sql, (error, results) => {
+    if (error) {
+      return res.status(500).json({ message: 'Error en la consulta SQL' });
+    }
 
+    res.json({
+      status: 200,
+      message: 'Success',
+      data: results
     });
-
   });
+});
 
-  module.exports = router;
+// GET usuario por ID
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+
+  const sql = `
+    SELECT idUsuarios, Nombre, Apellido, Correo, Rol, Telefono, Estado, Username
+    FROM Usuarios
+    WHERE idUsuarios = ?
+  `;
+
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.status(500).json(error);
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.json(results[0]);
+  });
+});
+
+module.exports = router;
