@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const app = express();
 require('dotenv').config();
@@ -16,6 +17,7 @@ const ventasRoute = require('./routes/ventasRoute');
 const precioUsdRoute = require('./routes/precioUsdRoute');
 const vehiculosRoute = require('./routes/vehiculosRoutes');
 
+app.use(cors());
 // Middleware global
 app.use(express.json());
 

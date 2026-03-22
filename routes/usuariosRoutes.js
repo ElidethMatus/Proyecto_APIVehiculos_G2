@@ -32,7 +32,6 @@ router.get('/:id', (req, res) => {
     FROM Usuarios
     WHERE idUsuarios = ?
   `;
-
   pool.query(sql, [id], (error, results) => {
     if (error) return res.status(500).json(error);
 
@@ -41,6 +40,24 @@ router.get('/:id', (req, res) => {
     }
 
     res.json(results[0]);
+  });
+});
+
+router.post('/crear', (req, res) => {
+  const { Nombre, Apellido, Correo, Password, Rol, Telefono, Estado, Username } = req.body;
+
+  const sql = `
+    INSERT INTO Usuarios (Nombre, Apellido, Correo, Password, Rol, Telefono, Estado, Username)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  pool.query(sql, [Nombre, Apellido, Correo, Password, Rol, Telefono, Estado, Username], (error, result) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error al crear usuario' });
+    }
+
+    res.json({ message: 'Usuario creado correctamente' });
   });
 });
 
