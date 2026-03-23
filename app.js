@@ -2,6 +2,7 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const axios = require('axios');
 
 // DB
 const pool = require('./config/db');
@@ -16,6 +17,7 @@ const clientesRoute = require('./routes/clientesRoute');
 const ventasRoute = require('./routes/ventasRoute');
 const precioUsdRoute = require('./routes/precioUsdRoute');
 const vehiculosRoute = require('./routes/vehiculosRoutes');
+const exchangeRoute = require('./routes/exchangeRoute');
 
 app.use(cors());
 // Middleware global
@@ -31,6 +33,7 @@ app.use('/api/clientes', AuthMiddleware, clientesRoute);
 app.use('/api/vehiculos', AuthMiddleware, vehiculosRoute);
 app.use('/api/ventas', AuthMiddleware, ventasRoute);
 app.use('/api/precio-usd', AuthMiddleware, precioUsdRoute);
+app.use('/api/exchange', AuthMiddleware, exchangeRoute);
 
 app.get('/', (req, res) => {
   res.send('Api funcionando');
