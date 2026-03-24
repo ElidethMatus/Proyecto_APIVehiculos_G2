@@ -1,0 +1,24 @@
+<h2>Lista de Usuarios</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Nombre</th>
+       <th>Email</th>
+      <!--<th>Móvil</th> -->
+    </tr>
+  </thead>
+ <tbody>
+  <tr *ngFor="let user of users">
+    <td>{{ user.idUsuarios }}</td>
+    <td>{{ user.Nombre }} {{ user.Apellido }}</td>
+    <td>{{ user.Correo }}</td>
+  </tr>
+</tbody>
+</table>
+
+<p *ngIf="users.length === 0">No hay usuarios disponibles.</p>
+<div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
